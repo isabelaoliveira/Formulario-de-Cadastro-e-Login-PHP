@@ -2,17 +2,37 @@
 		include_once("conexao.php");
 
 		$nome = $_POST['nome'];
-		$idade = $_POST['idade'];
+		$telefone = $_POST['telefone'];
 		$email = $_POST['email'];
 		$senha = $_POST['senha'];
+    $sexo = $_POST['sexo'];
+    $area = $_POST['area'];
+    $endereco = $_POST['endereco'];
+    $bairro = $_POST['bairro'];
+    $numero = $_POST['numero'];
+    $cidade = $_POST['cidade'];
+    $cep = $_POST['cep'];
+    $complemento = $_POST['complemento'];
     $codigo = $_POST['codigo'];
-    $foto = $_FILES['foto']['name'];
-    $temp = $_FILES['foto']['tmp_name'];
 
-    move_uploaded_file($temp, "../img/".$foto);
+    echo "$sexo <";
+    echo "$area <";
+    echo "$cidade <";
 
-		$sql = "UPDATE usuario SET NOME='$nome',IDADE='$idade',EMAIL='$email',SENHA='$senha',FOTO='$foto' WHERE CODIGO = '$codigo'";
-		$atualizar = mysqli_query($conexao, $sql);
+    if ($sexo == "" || $sexo == null) {
+      
+		  $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', area='$area', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
+
+    } elseif ($area == "" || $area == null) {
+
+      $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', sexo='$sexo', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
+
+    } else{
+
+      $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', sexo='$sexo', area='$area', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
+    }
+
+    $atualizar = mysqli_query($conexao, $sql);
 
 		$linhas = mysqli_affected_rows($conexao);
 
@@ -29,10 +49,10 @@
     <title>Conf. de Alteração</title>
     
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/estilo.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../estilo.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     
   </head>
   <body>
@@ -54,10 +74,10 @@
                   <h3 class="modal-title">Alteração Realizado com Sucesso!</h3>
                 </div>
                 <div class="modal-body">                 
-                  <?php echo "Usuário <b>$nome</b> Alterado" ?>                 
+                  <?php echo "Usuário <b>$cidade</b> Alterado" ?>                 
                 </div>
                 <div class="modal-footer">                 
-                  <a href="../index.php" class="btn btn-primary">OK</a>
+                  <a href="processa_adm.php" class="btn btn-primary">OK</a>
                 </div>
               </div>
             </div>
@@ -81,7 +101,7 @@
                   <?php echo 'Erro no Banco de Dados!' ?>                 
                 </div>
                 <div class="modal-footer">                 
-                  <a href="../index.php" class="btn btn-danger">OK</a>
+                  <a href="processa_adm.php" class="btn btn-danger">OK</a>
                 </div>
               </div>
             </div>
@@ -97,7 +117,7 @@
   			<?php } ?>
 
   		<div>
-  			<a class="btn btn-primary" href="../index.php">Voltar</a>
+  			<a class="btn btn-primary" href="processa_adm.php">Voltar</a>
   		</div>
 
   	</div><!-- Conteiner -->

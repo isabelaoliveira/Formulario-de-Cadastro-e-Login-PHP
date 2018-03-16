@@ -2,15 +2,21 @@
 		include_once("conexao.php");
 
 		$nome = $_POST['nome'];
-		$idade = $_POST['idade'];
+		$telefone = $_POST['telefone'];
 		$email = $_POST['email'];
 		$senha = $_POST['senha'];
-		$foto = $_FILES['foto']['name'];
-    $temp = $_FILES['foto']['tmp_name'];
+    $sexo = $_POST['sexo'];
+    $area = $_POST['area'];
+    $endereco = $_POST['endereco'];
+    $bairro = $_POST['bairro'];
+    $numero = $_POST['numero'];
+    $cidade = $_POST['cidade'];
+    $estado = $_POST['estado'];
+    $cep = $_POST['cep'];
+    $complemento = $_POST['complemento'];
+		
 
-    move_uploaded_file($temp, "../img/".$foto);
-
-		$sql = "INSERT INTO usuario (NOME,IDADE,EMAIL,SENHA,FOTO) VALUES ('$nome', '$idade', '$email', '$senha', '$foto')";
+		$sql = "INSERT INTO formulario_digitalnativa (nome,telefone,email,senha,sexo,area,endereco,bairro,numero,cidade,estado,cep,complemento) VALUES ('$nome', '$telefone', '$email', '$senha', '$sexo', '$area', '$endereco', '$bairro', '$numero', '$cidade', '$estado', '$cep', '$complemento')";
 		$salvar = mysqli_query($conexao, $sql);
 
 		$linhas = mysqli_affected_rows($conexao);
@@ -28,10 +34,10 @@
     <title>Conf. de Cadastro</title>
     
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/estilo.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../estilo.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     
   </head>
   <body>

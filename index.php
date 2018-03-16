@@ -1,13 +1,12 @@
 <?php 
+  session_start();
 
   include_once("classes/conexao.php");
 
-  $consulta = "SELECT * FROM usuario";
+  $consulta = "SELECT * FROM formulario_digitalnativa";
   $con = mysqli_query($conexao,$consulta) or die(mysqli_error());
 
-  $diretorio = "img/";
-
-  //move_uploaded_file($_FILES['foto']['tmp_name'], $diretorio);
+  unset($_SESSION['codigo']);
 
 ?>
 
@@ -17,281 +16,261 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulário</title>
+    <title>Cadastro</title>
     
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="estilo.css" rel="stylesheet">
     
   </head>
+
   <body>
 
-        <div class="container">
+    <div class="container">
 
-          <div class="page-header">
-            <h1>Formulário</h1>
-          </div>
+      <div class="page-header">
+        <h1>Formulário</h1>
+      </div>
 
-          <!-- CADASTRAR USUÁRIO -->
-          <div class="row">
-            <div class="col-md-3"><div class="titulo_cad">Cadastrar Usuário</div></div>
-            <div class="col-md-7"></div>
-            <div class="col-md-2">
-              <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalcad">Cadastrar</button>
+      <!-- LOGAR USUÁRIO -->
+      <div class="row">
+        <div class="col-md-3"><div class="titulo_cad">Fazer Login:</div></div>
+        <div class="col-md-7"></div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalcad">Logar</button>
+        </div>
+      </div><hr><!--// LOGAR USUÁRIO -->
+
+      <div class="text text-center text-danger">
+        <?php 
+
+          if(isset($_SESSION['errorlogin'])){
+
+            echo $_SESSION['errorlogin'];
+            unset($_SESSION['errorlogin']);
+          }
+
+        ?>
+      </div>
+      <div class="text text-center text-danger">
+        <?php 
+
+          if(isset($_SESSION['secury'])){
+
+            echo $_SESSION['secury'];
+            unset($_SESSION['secury']);
+          }
+
+        ?>
+      </div><br>
+
+      <!-- CADASTRAR USUÁRIO -->
+      <div class="row">
+        <div class="col-md-12">
+
+          <form method="POST" action="classes/processa.php" enctype="multipart/form-data">
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="nome">*Nome:</label>
+                <input type="text" class="form-control" name="nome" placeholder="Nome.." autofocus="" required>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="telefone">Telefone:</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Telefone..">
+              </div>
             </div>
-          </div><hr><br><!--// CADASTRAR USUÁRIO -->
 
-          <!-- PESQUISAR USUÁRIO -->
-          <form method="POST" action="classes/processa_pesquisar.php" class="pull-right form-inline">
-            <input type="text" class="form-control" name="pesquisa" placeholder="Nome do Usuário...">
-            <button type="submit" class="btn btn-primary">Pesquisar</button>
-          </form><!--// PESQUISAR USUÁRIO -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="email">*E-Mail:</label>
+                <input type="email" class="form-control" name="email" placeholder="E-Mail.."">
+              </div>
 
-          <!-- MODAL CADASTRAR -->
-          <div class="modal fade" id="modalcad" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-
-                <!-- Header -->
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h3 class="modal-title text-center" >Cadastrar Usuário</h3>
-                </div><!--// Header -->
-
-                <!-- Body -->
-                <div class="modal-body">
-                  <form method="POST" id="formcad" action="classes/processa.php" enctype="multipart/form-data">
-
-                    <div class="form-group">
-                      <label for="name" class="control-label">Nome:</label>
-                      <div class="row">
-                        <div class="col-md-10">
-                          <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" autofocus="" maxlength="40" required>
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="idade" class="control-label">Idade:</label>
-                      <div class="row">
-                        <div class="col-md-2">
-                          <input type="number" class="form-control" id="idade" name="idade" min="1" max="100" maxlength="3" required>
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="email" class="control-label">E-Mail:</label>
-                      <div class="row">
-                        <div class="col-md-9">
-                          <input type="email" class="form-control" id="email" name="email" placeholder="Email" maxlength="40" required>
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="senha" class="control-label">Senha:</label>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" maxlength="15" required>
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="foto">Foto:</label>
-                      <input type="file" class="form-control-file" id="foto" name="foto">
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="modal-footer">
-                      <button type="button" onclick="limpa()" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                      <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    </div><!--// Footer -->
-
-                  </form>
-                </div><!--// Body -->
-
-              </div><!--// Modal-Content -->
+              <div class="form-group col-md-6">
+                <label for="senha">*Senha:</label>
+                <input type="text" class="form-control" name="senha" placeholder="Senha..">
+              </div>
             </div>
-          </div><!--// MODAL CADASTRAR --> 
 
-          <!-- CONSULTA -->
-          <h3>Consultar</h3>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="sexo">*Sexo:</label><br>
+                <label class="radio-inline">
+                  <input type="radio" name="sexo" value="Masculio">Masculio
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="sexo" value="Feminino">Feminino
+                </label>
+              </div>
 
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>Idade</th>
-                <th>E-Mail</th>
-                <th>Senha</th>
-                <th>Foto</th>
-                <th colspan="2">Ação</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php while($dado = $con->fetch_array()){ ?>
-              <tr>
-                <td><?php echo $dado["CODIGO"]; ?></td>
-                <td><?php echo $dado["NOME"]; ?></td>
-                <td><?php echo $dado["IDADE"]; ?></td>
-                <td><?php echo $dado["EMAIL"]; ?></td>
-                <td><?php echo $dado["SENHA"]; ?></td>
-                <td><img src="<?php echo $diretorio.$dado["FOTO"]; ?>"></td>
-                <td>
-                  <a href="" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $dado["NOME"]; ?>" data-whateveridade="<?php echo $dado["IDADE"]; ?>" data-whateveremail="<?php echo $dado["EMAIL"]; ?>" data-whateversenha="<?php echo $dado["SENHA"]; ?>" data-whatevercodigo="<?php echo $dado["CODIGO"]; ?>">Editar</a> | 
-                
-                  <a href="" data-toggle="modal" data-target="#modalExcluir" class="btn btn-danger" data-whatever="<?php echo $dado["NOME"]; ?>" data-whatevercodigo="<?php echo $dado["CODIGO"]; ?>">Excluir</a>
-                </td>
-              </tr>
-              <?php } ?>
-            </tbody>
-          </table><!--// CONSULTA -->
-
-          <!-- MODAL EDITAR -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-
-                <!-- Header -->
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h3 class="modal-title" id="exampleModalLabel"></h3>
-                </div><!--// Header -->
-
-                <!-- Body -->
-                <div class="modal-body">
-                  <form method="POST" action="classes/processa_editar.php" enctype="multipart/form-data">
-
-                    <div class="form-group">
-                      <label for="recipient-name" class="control-label">Nome:</label>
-                      <div class="row">
-                        <div class="col-md-10">
-                          <input type="text" name="nome" class="form-control" id="recipient-name">
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="recipient-idade" class="control-label">Idade:</label>
-                      <div class="row">
-                        <div class="col-md-2">
-                          <input type="text" name="idade" class="form-control" id="recipient-idade">
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="recipient-email" class="control-label">E-Mail:</label>
-                      <div class="row">
-                        <div class="col-md-9">
-                          <input type="text" name="email" class="form-control" id="recipient-email">
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="recipient-senha" class="control-label">Senha:</label>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <input type="text" name="senha" class="form-control" id="recipient-senha">
-                        </div><!--// col -->
-                      </div><!--// row -->
-                    </div>
-
-                    <div class="form-group">
-                      <label for="recipient-foto" class="control-label">Foto:</label>
-                      <input type="file" class="form-control-file" id="recipient-foto" name="foto">
-                    </div>
-
-                    <input type="hidden" name="codigo" id="recipient-codigo">
-
-                    <!-- Footer -->
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                      <button type="submit" class="btn btn-primary">Alterar</button>
-                    </div><!--// Footer -->
-
-                  </form>
-                </div><!--// Body -->
-
-              </div><!--// Modal-Content -->
+              <div class="form-group col-md-6">
+                <label for="interesse">*Áreas de Interesse:</label><br>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="area" value="Informática">Informática
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="area" value="Esporte">Esporte
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="area" value="Economia">Economia
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="area" value="Carros">Carros
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="area" value="Cinema">Cinema
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="area" value="Outros">Outros
+                </label>
+              </div>
             </div>
-          </div><!--// MODAL EDITAR -->
 
-          <!-- MODAL EXCLUIR -->
-          <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-
-                <!-- Header -->
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h3 class="modal-title-excluir" id="exampleModalLabel"></h3>
-                </div><!--// Header -->
-
-                <form method="POST" action="classes/processa_excluir.php" enctype="multipart/form-data">
-                  <input type="hidden" name="codigo" id="recipient-codigo">
-
-                  <!-- Footer -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Excluir</button>
-                  </div><!--// Footer -->
-                </form>
-
-              </div><!--// Modal-Content -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="endereco">*Endereço:</label>
+                <input type="text" class="form-control" name="endereco" placeholder="Endereço.." required>
+              </div>
             </div>
-          </div><!--// MODAL EXCLUIR -->
 
-        </div> <!--// Container -->
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="bairro">*Bairro:</label>
+                <input type="text" class="form-control" name="bairro" placeholder="Bairro.." required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-2">
+                <label for="numero">*Número:</label>
+                <input type="number" class="form-control" name="numero" placeholder="Número.." required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-5">
+                <label for="cidade">*Cidade:</label>
+                <input type="text" class="form-control" name="cidade" placeholder="Cidade.." required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="estado">*Estado:</label>
+                <select class="form-control" required name="estado">
+                  <option>Recife</option>
+                  <option>Jaboatão dos Guararapes</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="cep">*Cep:</label>
+                <input type="text" class="form-control" id="cep" name="cep" placeholder="Cep.." required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="complemento">Complemento:</label>
+                <input type="text" class="form-control" name="complemento" placeholder="Complemeto..">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10"></div>
+            </div>
+
+          </form>
+
+        </div>
+      </div><!--// CADASTRAR USUÁRIO -->
+
+      <!-- MODAL LOGAR -->
+      <div class="modal fade" id="modalcad" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h3 class="modal-title text-center" >Logar</h3>
+            </div><!--// Header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+              <form method="POST" id="formcad" action="classes/processa_login.php">
+
+                <div class="form-group">
+                  <label for="email" class="control-label">E-Mail:</label>
+                  <div class="row">
+                    <div class="col-md-9">
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                    </div><!--// col -->
+                  </div><!--// row -->
+                </div>
+
+                <div class="form-group">
+                  <label for="senha" class="control-label">Senha:</label>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+                    </div><!--// col -->
+                  </div><!--// row -->
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                  <button type="button" onclick="limpa()" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Logar</button>
+                </div><!--// Footer -->
+
+              </form>
+            </div><!--// Body -->
+
+          </div><!--// Modal-Content -->
+        </div>
+      </div><!-- MODAL LOGAR USUÁRIO --> 
+
+    </div> <!--// Container -->
       
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="src/jquery.maskedinput.js" type="text/javascript"></script>
 
-    <!-- Modal Editar -->
     <script type="text/javascript">
-      $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) 
-        var recipient = button.data('whatever')
-        var recipientidade = button.data('whateveridade')
-        var recipientemail = button.data('whateveremail')
-        var recipientsenha = button.data('whateversenha')
-        var recipientcodigo = button.data('whatevercodigo')
-        var modal = $(this)
-        modal.find('.modal-title').text('Editar Usuário ' + recipientcodigo + ' ' + recipient)
-        modal.find('#recipient-name').val(recipient)
-        modal.find('#recipient-idade').val(recipientidade)
-        modal.find('#recipient-email').val(recipientemail)
-        modal.find('#recipient-senha').val(recipientsenha)
-        modal.find('#recipient-codigo').val(recipientcodigo)
-      })
-    </script><!--// Modal Editar -->
+      $(function() {
+          $.mask.definitions['~'] = "[+-]";
 
-    <!-- Modal Excluir -->
-    <script type="text/javascript">
-      $('#modalExcluir').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) 
-        var recipient = button.data('whatever')
-        var recipientcodigo = button.data('whatevercodigo')
-        var modal = $(this)
-        modal.find('.modal-title-excluir').text('Excluir Usuário ' + recipientcodigo + ' ' + recipient + ' ?')
-        modal.find('#recipient-name').val(recipient)
-        modal.find('#recipient-codigo').val(recipientcodigo)
-      })
-    </script><!--// Modal Excluir -->
+          $("#telefone").mask("(99) 9999-9999");
+          $("#cep").mask("99999-999");
 
-    <!-- Limpar Formulário Cadastro -->
+
+          $("input").blur(function() {
+              $("#info").html("Unmasked value: " + $(this).mask());
+          }).dblclick(function() {
+              $(this).unmask();
+          });
+      });
+
+    </script>
+
+    <!-- Limpar Formulário Logar Como Usuário -->
     <script type="text/javascript">
       function limpa() {
         if(document.getElementById('formcad').value!="") {
-          document.getElementById('nome').value="";
-          document.getElementById('idade').value="";
           document.getElementById('email').value="";
           document.getElementById('senha').value="";
-          document.getElementById('foto').value="";
       }
     }
     </script><!--// Limpar -->
