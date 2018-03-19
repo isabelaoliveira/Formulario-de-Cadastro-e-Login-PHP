@@ -1,12 +1,16 @@
 <?php
+
+    session_start();
+
 		include_once("conexao.php");
+
 
 		$nome = $_POST['nome'];
 		$telefone = $_POST['telefone'];
 		$email = $_POST['email'];
 		$senha = $_POST['senha'];
     $sexo = $_POST['sexo'];
-    $area = $_POST['area'];
+    //$area = $_POST['area'];
     $endereco = $_POST['endereco'];
     $bairro = $_POST['bairro'];
     $numero = $_POST['numero'];
@@ -14,10 +18,51 @@
     $estado = $_POST['estado'];
     $cep = $_POST['cep'];
     $complemento = $_POST['complemento'];
-		
 
-		$sql = "INSERT INTO formulario_digitalnativa (nome,telefone,email,senha,sexo,area,endereco,bairro,numero,cidade,estado,cep,complemento) VALUES ('$nome', '$telefone', '$email', '$senha', '$sexo', '$area', '$endereco', '$bairro', '$numero', '$cidade', '$estado', '$cep', '$complemento')";
-		$salvar = mysqli_query($conexao, $sql);
+    // Áreas de Interesses
+    if(isset($_POST['area1'])){
+      $informatica = $_POST['area1'];
+    } else{ 
+      $informatica = " ";
+    }
+        
+    if(isset($_POST['area2'])){
+      $esporte = $_POST['area2'];
+    } else{ 
+      $esporte = " ";
+    }
+
+    if(isset($_POST['area3'])){
+      $economia = $_POST['area3'];
+    } else{ 
+      $economia = " ";
+    }
+
+    if(isset($_POST['area4'])){
+      $carros = $_POST['area4'];
+    } else{ 
+      $carros = " ";
+    }
+    
+    if(isset($_POST['area5'])){
+      $cinema = $_POST['area5'];
+    } else{ 
+      $cinema = " ";
+    }
+
+     if(isset($_POST['area6'])){
+      $outros = $_POST['area6'];
+    } else{ 
+      $outros = " ";
+    }
+
+    $sql = "INSERT INTO formulario_digitalnativa (nome,telefone,email,senha,sexo,endereco,bairro,numero,cidade,estado,cep,complemento) VALUES ('$nome', '$telefone', '$email', '$senha', '$sexo', '$endereco', '$bairro', '$numero', '$cidade', '$estado', '$cep', '$complemento')";
+
+    $sql2 = "INSERT INTO interesse (codigo_usu,informatica,esporte,economia,carros,cinema,outros) VALUES ((select LAST_INSERT_ID()),'$informatica', '$esporte', '$economia', '$carros', '$cinema', '$outros')";
+    
+		mysqli_query($conexao, $sql) or die ("Erro 1");
+
+    mysqli_query($conexao2, $sql2) or die ("Erro 2");
 
 		$linhas = mysqli_affected_rows($conexao);
 

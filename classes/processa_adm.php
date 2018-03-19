@@ -2,11 +2,13 @@
   
   session_start();
 
-  include_once("secury.php");
+  include_once("secury_adm.php");
   include_once("conexao.php");
 
   $consulta = "SELECT * FROM formulario_digitalnativa";
   $con = mysqli_query($conexao,$consulta) or die(mysqli_error());
+
+  
 
 ?>
 
@@ -141,26 +143,88 @@
                   </div><!--// col -->
                 </div><!--// row -->
 
+                <script type="text/javascript">
+                  var codigo = document.getElementById('recipient-codigo').innerHTML = document.form1.campo.value;
+                </script>
+
                 <div class="form-group">
                   <label for="area">*Áreas de Interesse:</label><br>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" name="area" value="Informática">Informática
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" name="area" value="Esporte">Esporte
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" name="area" value="Economia">Economia
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" name="area" value="Carros" >Carros
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" name="area" value="Cinema">Cinema
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" name="area" value="Outros">Outros
-                  </label>
+                  <?php
+                  $id = "<script>document.write(codigo)</script>";
+                  $consulta2 = "SELECT * FROM interesse where codigo_usu = '$id'";
+                  $con2 = mysqli_query($conexao,$consulta2);
+                  $dados2 = $con2->fetch_array();
+                  $infomatica = $dados2['informatica'];
+                  $esporte = $dados2['esporte'];
+                  $economia = $dados2['economia'];
+                  $carros = $dados2['carros'];
+                  $cinema = $dados2['cinema'];
+                  $outros = $dados2['outros'];
+
+
+                    if($infomatica == "s"){
+                      echo "
+                        <label class='checkbox-inline'>
+                          <input type='checkbox' name='area1' value='Informática' checked />Informática
+                        </label>";
+                    } else{
+                      echo "
+                        <label class='checkbox-inline'>
+                          <input type='checkbox' name='area1' value='Informática' />Informática
+                        </label>";
+                    }
+                    
+                    if($esporte == "s"){
+                      echo"<label class='checkbox-inline'>
+                              <input type='checkbox' name='area2' value='Esporte' checked />Esporte
+                          </label>";
+                    } else{
+                      echo"<label class='checkbox-inline'>
+                              <input type='checkbox' name='area2' value='Esporte' />Esporte
+                          </label>";
+                    }
+                    
+                    if($economia == "s"){
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area3' value='Economia' checked />Economia
+                            </label>";
+                    } else{
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area3' value='Economia' />Economia
+                            </label>";
+                    }
+                    
+                    if($carros == "s"){
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area4' value='Carros' checked />Carros
+                            </label>";
+                    } else{
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area4' value='Carros' />Carros
+                            </label>";
+                    }
+                    
+                    if($cinema == "s"){
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area5' value='Cinema' checked />Cinema
+                            </label>";
+                    } else{
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area5' value='Cinema' />Cinema
+                            </label>";
+                    }
+
+                    if($outros == "s"){
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area6' value='Outros' checked />Outros
+                            </label>";
+                    } else{
+                      echo "<label class='checkbox-inline'>
+                              <input type='checkbox' name='area7' value='Outros' />Outros
+                            </label>";
+                    }
+
+                  ?>
                 </div>
 
                 
@@ -302,6 +366,7 @@
         modal.find('#recipient-cep').val(recipientcep)
         modal.find('#recipient-complemento').val(recipientcomplemento)
         modal.find('#recipient-codigo').val(recipientcodigo)
+        var valor = $("input[name=codigo]").val();
       })
     </script><!--// Modal Editar -->
 

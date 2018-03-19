@@ -5,8 +5,6 @@
 		$telefone = $_POST['telefone'];
 		$email = $_POST['email'];
 		$senha = $_POST['senha'];
-    $sexo = $_POST['sexo'];
-    $area = $_POST['area'];
     $endereco = $_POST['endereco'];
     $bairro = $_POST['bairro'];
     $numero = $_POST['numero'];
@@ -15,15 +13,23 @@
     $complemento = $_POST['complemento'];
     $codigo = $_POST['codigo'];
 
-    echo "$sexo <";
-    echo "$area <";
-    echo "$cidade <";
+    if(isset($_POST['sexo'])){
+      $sexo = $_POST['sexo'];
+    } else{
+      $sexo = "n";
+    }
 
-    if ($sexo == "" || $sexo == null) {
+    if(isset($_POST['sexo'])){
+      $area = $_POST['area'];
+    } else{
+      $area = "n";
+    }
+
+    if ($sexo == "n") {
       
 		  $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', area='$area', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
 
-    } elseif ($area == "" || $area == null) {
+    } elseif ($area == "n") {
 
       $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', sexo='$sexo', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
 
@@ -74,7 +80,7 @@
                   <h3 class="modal-title">Alteração Realizado com Sucesso!</h3>
                 </div>
                 <div class="modal-body">                 
-                  <?php echo "Usuário <b>$cidade</b> Alterado" ?>                 
+                  <?php echo "Usuário <b>$nome</b> Alterado" ?>                 
                 </div>
                 <div class="modal-footer">                 
                   <a href="processa_adm.php" class="btn btn-primary">OK</a>

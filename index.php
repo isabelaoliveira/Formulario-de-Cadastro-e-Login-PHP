@@ -7,6 +7,7 @@
   $con = mysqli_query($conexao,$consulta) or die(mysqli_error());
 
   unset($_SESSION['codigo']);
+  unset($_SESSION['adm']);
 
 ?>
 
@@ -78,19 +79,19 @@
 
               <div class="form-group col-md-6">
                 <label for="telefone">Telefone:</label>
-                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Telefone..">
+                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Telefone.." required>
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="email">*E-Mail:</label>
-                <input type="email" class="form-control" name="email" placeholder="E-Mail.."">
+                <input type="email" class="form-control" name="email" placeholder="E-Mail.." required>
               </div>
 
               <div class="form-group col-md-6">
                 <label for="senha">*Senha:</label>
-                <input type="text" class="form-control" name="senha" placeholder="Senha..">
+                <input type="text" class="form-control" name="senha" placeholder="Senha.." required>
               </div>
             </div>
 
@@ -108,22 +109,22 @@
               <div class="form-group col-md-6">
                 <label for="interesse">*Áreas de Interesse:</label><br>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area" value="Informática">Informática
+                  <input type="checkbox" name="area1" value="s">Informática
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area" value="Esporte">Esporte
+                  <input type="checkbox" name="area2" value="s">Esporte
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area" value="Economia">Economia
+                  <input type="checkbox" name="area3" value="s">Economia
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area" value="Carros">Carros
+                  <input type="checkbox" name="area4" value="s">Carros
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area" value="Cinema">Cinema
+                  <input type="checkbox" name="area5" value="s">Cinema
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area" value="Outros">Outros
+                  <input type="checkbox" name="area6" value="s">Outros
                 </label>
               </div>
             </div>
@@ -160,8 +161,16 @@
               <div class="form-group col-md-4">
                 <label for="estado">*Estado:</label>
                 <select class="form-control" required name="estado">
-                  <option>Recife</option>
-                  <option>Jaboatão dos Guararapes</option>
+                  <?php 
+
+                    $sql = "SELECT * FROM estado";
+                    $resultado = mysqli_query($conexao,$sql);
+                    while($dado = mysqli_fetch_array($resultado)){
+                      $estado = $dado['nome'];
+                      echo "<option value='$estado'>$estado</option>";
+                    }
+
+                  ?>
                 </select>
               </div>
             </div>

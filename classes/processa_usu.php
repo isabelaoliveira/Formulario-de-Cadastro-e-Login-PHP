@@ -2,15 +2,13 @@
   
   session_start();
 
-  include_once("secury.php");
+  include_once("secury_usu.php");
   include_once("conexao.php");
 
   $codigo = $_SESSION['codigo'];
 
   $consulta = "SELECT * FROM formulario_digitalnativa WHERE codigo = '$codigo'";
   $con = mysqli_query($conexao,$consulta) or die(mysqli_error());
-
-
 
 ?>
 
