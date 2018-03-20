@@ -1,14 +1,20 @@
 <?php
+    session_start();
+
 		include_once("conexao.php");
 
     $codigo = $_POST['codigo'];
 
-		$sql = "DELETE FROM usuario WHERE CODIGO = '$codigo'";
-		$excluir = mysqli_query($conexao, $sql);
+    $sql2 = "DELETE FROM interesse WHERE codigo_usu = '$codigo'";
+    $excluir2 = mysqli_query($conexao2, $sql2);
 
-		$linhas = mysqli_affected_rows($conexao);
+    $sql = "DELETE FROM formulario_digitalnativa WHERE codigo = '$codigo'";
+    $excluir = mysqli_query($conexao, $sql);
 
-		mysqli_close($conexao);
+    $linhas = mysqli_affected_rows($conexao);   
+
+    mysqli_close($conexao);
+		mysqli_close($conexao2);
  
 ?>
 
@@ -49,7 +55,7 @@
                   Usuário Excluido             
                 </div>
                 <div class="modal-footer">                 
-                  <a href="../index.php" class="btn btn-primary">OK</a>
+                  <a href="processa_adm.php" class="btn btn-primary">OK</a>
                 </div>
               </div>
             </div>
@@ -73,7 +79,7 @@
                   <?php echo 'Erro no Banco de Dados!' ?>                 
                 </div>
                 <div class="modal-footer">                 
-                  <a href="../index.php" class="btn btn-danger">OK</a>
+                  <a href="processa_adm.php" class="btn btn-danger">OK</a>
                 </div>
               </div>
             </div>

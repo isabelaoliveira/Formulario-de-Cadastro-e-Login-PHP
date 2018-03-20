@@ -35,8 +35,8 @@
 
       <!-- LOGAR USUÁRIO -->
       <div class="row">
-        <div class="col-md-3"><div class="titulo_cad">Fazer Login:</div></div>
-        <div class="col-md-7"></div>
+        <div class="col-md-2"><div class="titulo_cad">Fazer Login:</div></div>
+        <div class="col-md-8">ADM -> <b>Login:</b> adm@adm / <b>Senha: </b>123</div>
         <div class="col-md-2">
           <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalcad">Logar</button>
         </div>
@@ -63,13 +63,14 @@
           }
 
         ?>
-      </div><br>
+      </div>
+      <div id="erroCheck" class="text text-center text-danger"></div><br>
 
       <!-- CADASTRAR USUÁRIO -->
       <div class="row">
         <div class="col-md-12">
 
-          <form method="POST" action="classes/processa.php" enctype="multipart/form-data">
+          <form method="POST" name="formcad" onsubmit="return validarChecBox();" action="classes/processa.php" enctype="multipart/form-data">
 
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -99,32 +100,33 @@
               <div class="form-group col-md-6">
                 <label for="sexo">*Sexo:</label><br>
                 <label class="radio-inline">
-                  <input type="radio" name="sexo" value="Masculio">Masculio
+                  <input type="radio" name="sexo" value="Masculino" id="sexo1">Masculio
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" name="sexo" value="Feminino">Feminino
+                  <input type="radio" name="sexo" value="Feminino" id="sexo2">Feminino
                 </label>
               </div>
+              
 
               <div class="form-group col-md-6">
                 <label for="interesse">*Áreas de Interesse:</label><br>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area1" value="s">Informática
+                  <input type="checkbox" name="area1" id="informatica" value="s">Informática
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area2" value="s">Esporte
+                  <input type="checkbox" name="area2" id="esporte" value="s">Esporte
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area3" value="s">Economia
+                  <input type="checkbox" name="area3" id="economia" value="s">Economia
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area4" value="s">Carros
+                  <input type="checkbox" name="area4" id="carros" value="s">Carros
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area5" value="s">Cinema
+                  <input type="checkbox" name="area5" id="cinema" value="s">Cinema
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox" name="area6" value="s">Outros
+                  <input type="checkbox" name="area6" id="outros" value="s">Outros
                 </label>
               </div>
             </div>
@@ -218,7 +220,7 @@
 
             <!-- Body -->
             <div class="modal-body">
-              <form method="POST" id="formcad" action="classes/processa_login.php">
+              <form method="POST" id="formlogar" action="classes/processa_login.php">
 
                 <div class="form-group">
                   <label for="email" class="control-label">E-Mail:</label>
@@ -257,6 +259,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="src/jquery.maskedinput.js" type="text/javascript"></script>
 
+    <!-- Masca do Formulário -->
     <script type="text/javascript">
       $(function() {
           $.mask.definitions['~'] = "[+-]";
@@ -271,13 +274,39 @@
               $(this).unmask();
           });
       });
+    </script><!--// Masca do Formulário -->
 
+    <script type="text/javascript">
+      function validarChecBox(){
+        //var sexo = document.forms["formcad"]["sexo"].checked;
+        var sexo = document.getElementById("sexo1").checked;
+        var sexo2 = document.getElementById("sexo2").checked;
+
+        var informatica = document.getElementById("informatica").checked;
+        var esporte = document.getElementById("esporte").checked;
+        var economia = document.getElementById("economia").checked;
+        var carros = document.getElementById("carros").checked;
+        var cinema = document.getElementById("cinema").checked;
+        var outros = document.getElementById("outros").checked;
+
+        if((sexo == "") && (sexo2 == "")){
+          document.getElementById("infoss").innerHTML = "Preencha o Campo Sexo";
+          return false;
+        }
+
+        if((informatica == "") && (esporte == "") && (economia == "") && (carros == "") && (cinema == "") && (outros == "")){
+          document.getElementById("erroCheck").innerHTML = "Preencha o Campo Interresses";
+          return false;
+        }
+
+        return true;
+      }
     </script>
 
     <!-- Limpar Formulário Logar Como Usuário -->
     <script type="text/javascript">
       function limpa() {
-        if(document.getElementById('formcad').value!="") {
+        if(document.getElementById('formlogar').value!="") {
           document.getElementById('email').value="";
           document.getElementById('senha').value="";
       }

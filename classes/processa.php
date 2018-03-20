@@ -19,50 +19,58 @@
     $cep = $_POST['cep'];
     $complemento = $_POST['complemento'];
 
+    $area = "";
+
     // Áreas de Interesses
     if(isset($_POST['area1'])){
       $informatica = $_POST['area1'];
+      $area = "Informatica. ";
     } else{ 
       $informatica = " ";
     }
         
     if(isset($_POST['area2'])){
       $esporte = $_POST['area2'];
+      $area = $area . "Esporte. ";
     } else{ 
       $esporte = " ";
     }
 
     if(isset($_POST['area3'])){
       $economia = $_POST['area3'];
+      $area = $area . "Economida. ";
     } else{ 
       $economia = " ";
     }
 
     if(isset($_POST['area4'])){
       $carros = $_POST['area4'];
+      $area = $area . "Carros. ";
     } else{ 
       $carros = " ";
     }
     
     if(isset($_POST['area5'])){
       $cinema = $_POST['area5'];
+      $area = $area . "Cinema. ";
     } else{ 
       $cinema = " ";
     }
 
      if(isset($_POST['area6'])){
       $outros = $_POST['area6'];
+      $area = $area . "Outros.";
     } else{ 
       $outros = " ";
     }
 
-    $sql = "INSERT INTO formulario_digitalnativa (nome,telefone,email,senha,sexo,endereco,bairro,numero,cidade,estado,cep,complemento) VALUES ('$nome', '$telefone', '$email', '$senha', '$sexo', '$endereco', '$bairro', '$numero', '$cidade', '$estado', '$cep', '$complemento')";
+    $sql = "INSERT INTO formulario_digitalnativa (nome,telefone,email,senha,sexo,area,endereco,bairro,numero,cidade,estado,cep,complemento) VALUES ('$nome', '$telefone', '$email', '$senha', '$sexo', '$area', '$endereco', '$bairro', '$numero', '$cidade', '$estado', '$cep', '$complemento')";
 
     $sql2 = "INSERT INTO interesse (codigo_usu,informatica,esporte,economia,carros,cinema,outros) VALUES ((select LAST_INSERT_ID()),'$informatica', '$esporte', '$economia', '$carros', '$cinema', '$outros')";
     
-		mysqli_query($conexao, $sql) or die ("Erro 1");
+		mysqli_query($conexao, $sql) or die ("Erro no Banco formulario_digitalnativa");
 
-    mysqli_query($conexao2, $sql2) or die ("Erro 2");
+    mysqli_query($conexao2, $sql2) or die ("Erro no Banco interesse");
 
 		$linhas = mysqli_affected_rows($conexao);
 

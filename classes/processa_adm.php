@@ -8,7 +8,15 @@
   $consulta = "SELECT * FROM formulario_digitalnativa";
   $con = mysqli_query($conexao,$consulta) or die(mysqli_error());
 
-  
+  $consulta2 = "SELECT * FROM interesse";
+  $con2 = mysqli_query($conexao,$consulta2);
+  $dados2 = $con2->fetch_array();
+  $infomatica = $dados2['informatica'];
+  $esporte = $dados2['esporte'];
+  $economia = $dados2['economia'];
+  $carros = $dados2['carros'];
+  $cinema = $dados2['cinema'];
+  $outros = $dados2['outros'];
 
 ?>
 
@@ -75,7 +83,7 @@
             <td><?php echo $dado["cep"]; ?></td>
             <td><?php echo $dado["complemento"]; ?></td>
             <td>
-              <a href="" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $dado["nome"];?>" data-whatevertelefone="<?php echo $dado["telefone"];?>" data-whateveremail="<?php echo $dado["email"];?>" data-whateversenha="<?php echo $dado["senha"];?>" data-whateverendereco="<?php echo $dado["endereco"];?>" data-whateverbairro="<?php echo $dado["bairro"];?>" data-whatevernumero="<?php echo $dado["numero"];?>" data-whatevercidade="<?php echo $dado["cidade"];?>" data-whateverestado="<?php echo $dado["estado"];?>" data-whatevercep="<?php echo $dado["cep"];?>" data-whatevercomplemento="<?php echo $dado["complemento"];?>" data-whatevercodigo="<?php echo $dado["codigo"];?>">Editar</a> | 
+              <a class="btn btn-primary" href="<?php echo "editar.php?codigo=" . $dado['codigo']?>">Editar</a> | 
             
               <a href="" data-toggle="modal" data-target="#modalExcluir" class="btn btn-danger" data-whatever="<?php echo $dado["nome"]; ?>" data-whatevercodigo="<?php echo $dado["codigo"]; ?>">Excluir</a>
             </td>
@@ -83,210 +91,6 @@
           <?php } ?>
         </tbody>
       </table><!--// RELATÓTIO -->
-
-      <!-- MODAL EDITAR -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-
-            <!-- Header -->
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h3 class="modal-title" id="exampleModalLabel"></h3>
-            </div><!--// Header -->
-
-            <!-- Body -->
-            <div class="modal-body">
-              <form method="POST" action="processa_editar.php">
-
-                <div class="form-group">
-                  <label for="recipient-name" class="control-label">Nome:</label>
-                  <div class="row">
-                    <div class="col-md-10">
-                      <input type="text" name="nome" class="form-control" id="recipient-name">
-                    </div><!--// col -->
-                  </div><!--// row -->
-                </div>
-
-                <div class="form-group">
-                  <label for="recipient-telefone" class="control-label">Telefone:</label>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <input type="text" name="telefone" class="form-control" id="recipient-telefone">
-                    </div><!--// col -->
-                  </div><!--// row -->
-                </div>
-
-                <div class="form-group">
-                  <label for="recipient-email" class="control-label">E-Mail:</label>
-                  <div class="row">
-                    <div class="col-md-9">
-                      <input type="text" name="email" class="form-control" id="recipient-email">
-                    </div><!--// col -->
-                  </div><!--// row -->
-                </div>
-
-                <div class="form-group row">
-                  <div class="col-md-6">
-                    <label for="recipient-senha" class="control-label">Senha:</label>
-                    <input type="text" name="senha" class="form-control" id="recipient-senha">
-                  </div><!--// col -->
-
-                  <div class="col-md-6">
-                    <label for="sexo">Sexo:</label><br>
-                    <label class="radio-inline">
-                      <input type="radio" name="sexo" value="Masculio">Masculio
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="sexo" value="Feminino">Feminino
-                    </label>
-                  </div><!--// col -->
-                </div><!--// row -->
-
-                <script type="text/javascript">
-                  var codigo = document.getElementById('recipient-codigo').innerHTML = document.form1.campo.value;
-                </script>
-
-                <div class="form-group">
-                  <label for="area">*Áreas de Interesse:</label><br>
-                  <?php
-                  $id = "<script>document.write(codigo)</script>";
-                  $consulta2 = "SELECT * FROM interesse where codigo_usu = '$id'";
-                  $con2 = mysqli_query($conexao,$consulta2);
-                  $dados2 = $con2->fetch_array();
-                  $infomatica = $dados2['informatica'];
-                  $esporte = $dados2['esporte'];
-                  $economia = $dados2['economia'];
-                  $carros = $dados2['carros'];
-                  $cinema = $dados2['cinema'];
-                  $outros = $dados2['outros'];
-
-
-                    if($infomatica == "s"){
-                      echo "
-                        <label class='checkbox-inline'>
-                          <input type='checkbox' name='area1' value='Informática' checked />Informática
-                        </label>";
-                    } else{
-                      echo "
-                        <label class='checkbox-inline'>
-                          <input type='checkbox' name='area1' value='Informática' />Informática
-                        </label>";
-                    }
-                    
-                    if($esporte == "s"){
-                      echo"<label class='checkbox-inline'>
-                              <input type='checkbox' name='area2' value='Esporte' checked />Esporte
-                          </label>";
-                    } else{
-                      echo"<label class='checkbox-inline'>
-                              <input type='checkbox' name='area2' value='Esporte' />Esporte
-                          </label>";
-                    }
-                    
-                    if($economia == "s"){
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area3' value='Economia' checked />Economia
-                            </label>";
-                    } else{
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area3' value='Economia' />Economia
-                            </label>";
-                    }
-                    
-                    if($carros == "s"){
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area4' value='Carros' checked />Carros
-                            </label>";
-                    } else{
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area4' value='Carros' />Carros
-                            </label>";
-                    }
-                    
-                    if($cinema == "s"){
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area5' value='Cinema' checked />Cinema
-                            </label>";
-                    } else{
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area5' value='Cinema' />Cinema
-                            </label>";
-                    }
-
-                    if($outros == "s"){
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area6' value='Outros' checked />Outros
-                            </label>";
-                    } else{
-                      echo "<label class='checkbox-inline'>
-                              <input type='checkbox' name='area7' value='Outros' />Outros
-                            </label>";
-                    }
-
-                  ?>
-                </div>
-
-                
-                <div class="form-group row">
-                  <div class="col-md-8">
-                    <label for="recipient-endereco" class="control-label">Endereço:</label>
-                    <input type="text" name="endereco" class="form-control" id="recipient-endereco">
-                  </div><!--// col -->
-
-                  <div class="col-md-4">
-                    <label for="recipient-numero" class="control-label">Número:</label>
-                    <input type="number" name="numero" class="form-control" id="recipient-numero">
-                  </div><!--// col -->
-                </div><!--// row -->
-
-                <div class="form-group row">
-                  <div class="col-md-6">
-                    <label for="recipient-bairro" class="control-label">Bairro:</label>
-                    <input type="text" name="bairro" class="form-control" id="recipient-bairro">
-                  </div><!--// col -->
- 
-                  <div class="col-md-6">
-                    <label for="recipient-cidade" class="control-label">Cidade:</label>
-                    <input type="text" name="cidade" class="form-control" id="recipient-cidade">
-                  </div><!--// col -->
-                </div><!--// row -->
-
-                <div class="form-group row">
-                  <div class="col-md-6">
-                    <label for="recipient-estado" class="control-label">Estado:</label>
-                    <input type="text" name="estado" class="form-control" id="recipient-estado">
-                  </div><!--// col -->
-
-                  <div class="col-md-3">
-                    <label for="recipient-cep" class="control-label">CEP:</label>
-                    <input type="text" name="cep" class="form-control" id="recipient-cep">
-                  </div><!--// col -->
-                </div><!--// row -->
-
-                <div class="form-group">
-                  <label for="recipient-complemento" class="control-label">Complemento:</label>
-                  <div class="row">
-                    <div class="col-md-10">
-                      <input type="text" name="complemento" class="form-control" id="recipient-complemento">
-                    </div><!--// col -->
-                  </div><!--// row -->
-                </div>
-
-                <input type="hidden" name="codigo" id="recipient-codigo">
-
-                <!-- Footer -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Alterar</button>
-                </div><!--// Footer -->
-
-              </form>
-            </div><!--// Body -->
-
-          </div><!--// Modal-Content -->
-        </div>
-      </div><!--// MODAL EDITAR -->
 
       <!-- MODAL EXCLUIR -->
       <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -299,8 +103,8 @@
               <h3 class="modal-title-excluir" id="exampleModalLabel"></h3>
             </div><!--// Header -->
 
-            <form method="POST" action="processa_excluir.php" enctype="multipart/form-data">
-              <input type="hidden" name="codigo" id="recipient-codigo-exc-">
+            <form method="POST" action="processa_excluir.php">
+              <input type="hidden" name="codigo" id="recipient-codigo-exc">
 
               <!-- Footer -->
               <div class="modal-footer">
@@ -335,40 +139,6 @@
       });
 
     </script>
-
-    <!-- Modal Editar -->
-    <script type="text/javascript">
-      $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) 
-        var recipient = button.data('whatever')
-        var recipientidade = button.data('whatevertelefone')
-        var recipientemail = button.data('whateveremail')
-        var recipientsenha = button.data('whateversenha')
-        var recipientendereco = button.data('whateverendereco')
-        var recipientbairro = button.data('whateverbairro')
-        var recipientnumero = button.data('whatevernumero')
-        var recipientcidade = button.data('whatevercidade')
-        var recipientestado = button.data('whateverestado')
-        var recipientcep = button.data('whatevercep')
-        var recipientcomplemento = button.data('whatevercomplemento')
-        var recipientcodigo = button.data('whatevercodigo')
-        var modal = $(this)
-        modal.find('.modal-title').text('Editar Usuário #' + recipientcodigo + ' ' + recipient)
-        modal.find('#recipient-name').val(recipient)
-        modal.find('#recipient-telefone').val(recipientidade)
-        modal.find('#recipient-email').val(recipientemail)
-        modal.find('#recipient-senha').val(recipientsenha)
-        modal.find('#recipient-endereco').val(recipientendereco)
-        modal.find('#recipient-bairro').val(recipientbairro)
-        modal.find('#recipient-numero').val(recipientnumero)
-        modal.find('#recipient-cidade').val(recipientcidade)
-        modal.find('#recipient-estado').val(recipientestado)
-        modal.find('#recipient-cep').val(recipientcep)
-        modal.find('#recipient-complemento').val(recipientcomplemento)
-        modal.find('#recipient-codigo').val(recipientcodigo)
-        var valor = $("input[name=codigo]").val();
-      })
-    </script><!--// Modal Editar -->
 
     <!-- Modal Excluir -->
     <script type="text/javascript">

@@ -13,34 +13,66 @@
     $complemento = $_POST['complemento'];
     $codigo = $_POST['codigo'];
 
+    $area = "";
+
     if(isset($_POST['sexo'])){
       $sexo = $_POST['sexo'];
     } else{
       $sexo = "n";
     }
 
-    if(isset($_POST['sexo'])){
-      $area = $_POST['area'];
-    } else{
-      $area = "n";
+    // Áreas de Interesses
+    if(isset($_POST['area1'])){
+      $informatica = $_POST['area1'];
+      $area = "Informatica. ";
+    } else{ 
+      $informatica = " ";
+    }
+        
+    if(isset($_POST['area2'])){
+      $esporte = $_POST['area2'];
+      $area = $area . "Esporte. ";
+    } else{ 
+      $esporte = " ";
     }
 
-    if ($sexo == "n") {
-      
-		  $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', area='$area', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
-
-    } elseif ($area == "n") {
-
-      $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', sexo='$sexo', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
-
-    } else{
-
-      $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', sexo='$sexo', area='$area', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
+    if(isset($_POST['area3'])){
+      $economia = $_POST['area3'];
+      $area = $area . "Economia. ";
+    } else{ 
+      $economia = " ";
     }
 
-    $atualizar = mysqli_query($conexao, $sql);
+    if(isset($_POST['area4'])){
+      $carros = $_POST['area4'];
+      $area = $area . "Carros. ";
+    } else{ 
+      $carros = " ";
+    }
+    
+    if(isset($_POST['area5'])){
+      $cinema = $_POST['area5'];
+      $area = $area . "Cinema. ";
+    } else{ 
+      $cinema = " ";
+    }
+
+     if(isset($_POST['area6'])){
+      $outros = $_POST['area6'];
+      $area = $area . "Outros. ";
+    } else{ 
+      $outros = " ";
+    }
+
+    $sql = "UPDATE formulario_digitalnativa SET nome='$nome', telefone='$telefone', email='$email', senha='$senha', sexo='$sexo', area='$area', endereco='$endereco', bairro='$bairro', numero='$numero', cidade='$cidade', cep='$cep', complemento='$complemento' WHERE codigo = '$codigo'";
+
+    $sql_check = "UPDATE interesse SET informatica='$informatica', esporte='$esporte', economia='$economia', carros='$carros', cinema='$cinema', outros='$outros' WHERE codigo_usu = '$codigo'";
+
+    $atualizar = mysqli_query($conexao, $sql) or die ("Erro no Banco formulario_digitalnativa");
 
 		$linhas = mysqli_affected_rows($conexao);
+
+    $atualizar_check = mysqli_query($conexao2, $sql_check) or die ("Erro no Banco interesse");
 
 		mysqli_close($conexao);
  
